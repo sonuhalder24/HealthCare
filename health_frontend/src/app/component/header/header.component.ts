@@ -1,0 +1,58 @@
+import { Component, OnInit, DoCheck, Inject } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ApiService } from '../../services/api.service';
+import { DataService } from '../../services/data.service';
+import { Users } from '../../models/users.model';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+
+@Component({
+  standalone: false,
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
+})
+export class HeaderComponent implements OnInit {
+
+  userId = '';
+  userDetails = new Users();
+
+  constructor(private dataService: DataService, private route: Router) { }
+
+  ngOnInit() {
+    // get userId from service and assign it to userId property
+    this.userId = this.dataService.getUserId();
+    console.log('Retrieved userId:', this.userId);
+    
+    // call getProfileDetails method to get user details
+    if (this.userId && this.userId !== '') {
+      this.getProfileDetails();
+    }
+  }
+
+  getProfileDetails() {
+    // call getUserDetails method of dataService and assign response to userDetails property
+    console.log('Loading user details for userId:', this.userId);
+    
+    this.dataService.getUserDetails(this.userId).subscribe({
+      next: (res: Users) => {
+        //console.log('User details retrieved:', res);
+        window.localStorage.setItem('email', res.user_email);
+        window.localStorage.setItem('mobile', res.user_mobile);
+        window.localStorage.setItem('location', res.location);
+        this.userDetails = res;
+      },
+      error: (err: any) => {
+        console.error('Error loading user details:', err);
+        // Handle error case - maybe set default values or show error message
+        this.userDetails = new Users();
+      }
+    });
+  }
+
+  logout() {
+    console.log('Logging out user');
+    this.dataService.doLogOut();
+    this.route.navigate(['/login']);
+  }
+}
