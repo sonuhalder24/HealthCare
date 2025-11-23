@@ -17,7 +17,7 @@ export class ApiService {
   AUTH_API_URL = '/auth/server/';
 
   constructor(private http: HttpClient) {
-    this.API_URL = 'http://localhost:5000/api';
+    this.API_URL = 'https://healthcareapi.duckdns.org/api';
   }
 
   public checkLogin(username: string, password: string): Observable<Credentials> {

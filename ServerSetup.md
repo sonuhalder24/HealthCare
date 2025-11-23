@@ -200,7 +200,7 @@ If 'default' exists, remove it
 Try with curl
 
 ```bash
-curl -X POST http://192.46.214.185/register \
+curl -X POST https://healthcareapi.duckdns.org/register \
   -H "Content-Type: application/json" \
   -d '{
     "user_name": "testuser",
