@@ -17,7 +17,7 @@ export class ProfileComponent implements OnInit {
   userDetails = new Users();
 
   editProfileForm: FormGroup;
-  userImg = './../../assets/user.jpg';
+  userImg = 'assets/user.jpg';
   mobileErrMsg = 'You must enter a valid mobile number';
   emailErrMsg = 'You must enter a valid Email ID';
   locationErrMsg = 'You must enter the location';
